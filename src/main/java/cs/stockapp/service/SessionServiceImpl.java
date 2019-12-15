@@ -1,27 +1,26 @@
 package cs.stockapp.service;
 
+import cs.stockapp.dataaccess.JDBCUserManager;
 import cs.stockapp.factory.CookieFactory;
 import cs.stockapp.factory.TokenFactory;
 import cs.stockapp.models.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 @Service
 public class SessionServiceImpl implements SessionService {
 
     private UserTokenService userTokenService;
+    private JDBCUserManager jdbcUserManager;
 
     @Autowired
-    public SessionServiceImpl(UserTokenService userTokenService){
+    public SessionServiceImpl(UserTokenService userTokenService, JDBCUserManager jdbcUserManager){
+        this.jdbcUserManager = jdbcUserManager;
         this.userTokenService = userTokenService;
     }
 
@@ -37,25 +36,17 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public boolean loginUser(String userName, String password, HttpServletResponse response) {
-        int id = 15;
-        String name = "admin";
-        String pass = "admin";
+    public boolean loginUser(String userName, String password, HttpServletResponse response) throws SQLException {
 
+        int userId = jdbcUserManager.getUserIdIfExists(userName, password);
 
-
-        if (userName.equals(name) && password.equals(pass)){
-            try {
-                String hash = name + pass;
-                UserToken userToken = TokenFactory.getUserToken(id, Integer.toString(hash.hashCode()));
+        if (userId != -1){
+                String hash = userName + password;
+                UserToken userToken = TokenFactory.getUserToken(userId, Integer.toString(hash.hashCode()));
                 userTokenService.addUserTokenOrUpdateExisting(userToken);
                 Cookie loginCookie = CookieFactory.getLoginCookie(userToken.getToken(), 30);
                 response.addCookie(loginCookie);
                 return true;
-            }
-            catch (Exception e){
-                return false;
-            }
         } else {
             return false;
         }

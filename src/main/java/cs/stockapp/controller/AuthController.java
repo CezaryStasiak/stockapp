@@ -1,17 +1,20 @@
 package cs.stockapp.controller;
 
 import cs.stockapp.mapping.ActionsMappings;
+import cs.stockapp.mapping.ErrorMessasges;
 import cs.stockapp.mapping.ViewMappings;
 import cs.stockapp.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AuthController {
@@ -24,39 +27,37 @@ public class AuthController {
     }
 
     @GetMapping(ActionsMappings.LOGIN_MAPPING)
-    public String login(HttpServletRequest request){
-        if (sessionService.getUserIdIfIsAuthenticated(request) != -1){
-            return "redirect:" + ActionsMappings.WELCOME_MAPPING;
-        }
+    public String login(){
         return ViewMappings.LOGIN_VIEW;
     }
 
     @PostMapping(ActionsMappings.LOGIN_MAPPING)
-    public String login(@RequestParam(defaultValue = "bla") String name,
-                        @RequestParam(defaultValue = "bla") String password ,
-                        HttpServletResponse response,
-                        HttpServletRequest request) throws NoSuchAlgorithmException {
+    public String login(@RequestParam String name,
+                        @RequestParam String password ,
+                        HttpServletResponse response, Model model) {
 
-        if (sessionService.getUserIdIfIsAuthenticated(request) != -1){
-            return "redirect:" + ActionsMappings.WELCOME_MAPPING;
+        List<String> errors = new ArrayList<>();
+
+        try{
+            if(sessionService.loginUser(name, password, response)){
+                return "redirect:" + ActionsMappings.WELCOME_MAPPING;
+            }
+            else{
+                errors.add(ErrorMessasges.INVALID_LOGIN_OR_PASSWORD);
+            }
+        } catch (Exception e){
+            errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
         }
 
-        if(sessionService.loginUser(name, password, response)){
-            return "redirect:" + ActionsMappings.WELCOME_MAPPING;
-        }
-
-        return "redirect:" + ActionsMappings.LOGIN_MAPPING;
+        model.addAttribute("errors", errors);
+        return ActionsMappings.LOGIN_MAPPING;
 
     }
 
     @GetMapping(ActionsMappings.LOGOUT_MAPPING)
     public String logout(HttpServletRequest request, HttpServletResponse response){
-
-        int id = sessionService.getUserIdIfIsAuthenticated(request);
-        if (id != -1){
-            sessionService.logoutUser(response, id);
-        }
-
+        int userId = (int) request.getSession().getAttribute("userId");
+        sessionService.logoutUser(response, userId);
         return "redirect:" + ActionsMappings.LOGIN_MAPPING;
     }
 }

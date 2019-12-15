@@ -1,18 +1,36 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Stock</title>
+    <title>StockApp</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-
-<form action="login" method="post">
-    <label for="name">User Name:</label>
-    <input id="name" type="text" name="name">
-    <label for="password">Password:</label>
-    <input id="password" type="text" name="password">
-    <input type="submit" value="Submit">
-</form>
-
+<div class="container" style="margin: 200px;">
+</div>
+<div class="container">
+            <form  action="login" method="post">
+                <div class="row">
+                    <div class="mx-auto">
+                <label for="name">Login:</label>
+                <input id="name" type="text" name="name">
+                    </div>
+                </div>
+                        <div class="row">
+                            <div class="mx-auto">
+                <label for="password">Password:</label>
+                <input id="password" type="password" name="password">
+                            </div>
+                        </div>
+                <div class="row">
+                    <div class="mx-auto">
+                <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+<div th:each="error : ${errors}">
+    <p th:text="${error}" class="alert alert-danger"></p>
+</div>
 </body>
 </html>

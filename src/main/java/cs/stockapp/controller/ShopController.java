@@ -1,5 +1,7 @@
 package cs.stockapp.controller;
 
+import cs.stockapp.dataaccess.JDBCUserManager;
+import cs.stockapp.dataaccess.JDBCUserManagerImpl;
 import cs.stockapp.mapping.ActionsMappings;
 import cs.stockapp.mapping.ViewMappings;
 import cs.stockapp.service.SessionServiceImpl;
@@ -13,18 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ShopController {
 
-    private final SessionServiceImpl sessionService;
+    private final JDBCUserManager jdbcUserManager;
     @Autowired
-    public ShopController(SessionServiceImpl sessionService){
-        this.sessionService = sessionService;
+    public ShopController(JDBCUserManager jdbcUserManager){
+         this.jdbcUserManager = jdbcUserManager;
     }
 
     @GetMapping(ActionsMappings.WELCOME_MAPPING)
-    public String welcome(HttpServletRequest httpServletRequest, HttpServletRequest request, Model model) {
-        int userId = sessionService.getUserIdIfIsAuthenticated(request);
-        if (userId == -1){
-            return "redirect:" + ActionsMappings.LOGIN_MAPPING;
-        }
+    public String welcome(HttpServletRequest request, Model model) {
+        Object userId = request.getSession().getAttribute("userId");
         model.addAttribute("user", userId);
         return ViewMappings.WELCOME_VIEW;
     }
