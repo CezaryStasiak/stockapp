@@ -15,7 +15,7 @@ public class ProductMapperImpl implements ProductMapper {
     public List<Product> getProductsFromResultSet(ResultSet set) throws SQLException {
 
         List<Product> products = new ArrayList<Product>();
-        
+
         while (set.next()) {
             int id = set.getInt("id");
             String name = set.getString("name");

@@ -37,12 +37,8 @@ public class JDBCProductsManagerImpl implements JDBCProductsManager {
             connection.close();
         }
         if (set == null) {
-            System.out.println("set null");
             return new ArrayList<>();
         }
-
-
         return products;
-
     }
 }

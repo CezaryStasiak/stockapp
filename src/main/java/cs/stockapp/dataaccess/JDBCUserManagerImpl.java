@@ -17,7 +17,7 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
     }
 
     @Override
-    public int getUserIdIfExists(String userName, String password){
+    public int getUserIdIfExists(String userName, String password) throws SQLException{
         int id = -1;
         Connection connection = connectionManager.getDatabaseConnection();
         try{
@@ -30,17 +30,17 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
             if (set.first()) {
                 id = set.getInt("id");
             }
-            connection.close();
-        }catch (SQLException e){
 
+        }catch (SQLException e){
         }
         finally {
+            connection.close();
             return id;
         }
     }
 
     @Override
-    public String getUserFirstNameByUserId(int id){
+    public String getUserFirstNameByUserId(int id) throws SQLException{
         String userFirstName = "";
         Connection connection = connectionManager.getDatabaseConnection();
 
@@ -53,11 +53,11 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
             if (set.first()) {
                 userFirstName = set.getString("name");
             }
-            connection.close();
-        }catch (SQLException e){
 
+        }catch (SQLException e){
         }
         finally {
+            connection.close();
             return userFirstName;
         }
     }

@@ -9,14 +9,33 @@
 <body>
 <div class="menuBar" th:replace="fragments/menu :: menuFragment">
 </div>
-<div class="container">
-    <div class="row">
-        <div class="mx-auto" th:each="product : ${products}">
-            <p th:text="${product.name}"></p>
-            <p th:text="${product.price}"></p>
-            <p th:text="${product.amount}"></p>
-        </div>
-    </div>
+<center>
+<h2>Inventory</h2>
+</center>
+<div th:if="${products!= null and !products.isEmpty()}" style="margin:100px;">
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Unit price</th>
+        <th scope="col">Total price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.amount}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${#numbers.formatDecimal(product.totalPrice, 0, 2)}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<div th:if="${products==null or products.isEmpty()}" style="margin:100px;">
+    <center>
+    <h3>Your shop has no products!</h3>
+    </center>
 </div>
 </body>
 </html>
