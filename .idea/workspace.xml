@@ -54,6 +54,15 @@
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="cs.stockapp" />
     </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cs.stockapp.dataaccess" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Czarko\Desktop\java\stockapp\src\main\resources\templates\shop" />
+      <recent name="C:\Users\Czarko\Desktop\java\stockapp\src\main\resources" />
+      <recent name="C:\Users\Czarko\Desktop\java\stockapp\src\main\resources\static\css" />
+      <recent name="C:\Users\Czarko\Desktop\java\stockapp\src\main\resources\templates" />
+    </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">

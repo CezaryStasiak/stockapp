@@ -34,13 +34,17 @@ public class AuthController {
     @PostMapping(ActionsMappings.LOGIN_MAPPING)
     public String login(@RequestParam String name,
                         @RequestParam String password ,
-                        HttpServletResponse response, Model model) {
-
+                        HttpServletResponse response, HttpServletRequest request, Model model) {
         List<String> errors = new ArrayList<>();
+
+        if (name == null || password == null || response == null){
+            errors.add(ErrorMessasges.NOT_ALL_DATA_PROVIDED);
+            return "redirect:" + ActionsMappings.LOGIN_MAPPING;
+        }
 
         try{
             if(sessionService.loginUser(name, password, response)){
-                return "redirect:" + ActionsMappings.WELCOME_MAPPING;
+                return "redirect:" + ActionsMappings.INVENTORY_MAPPING;
             }
             else{
                 errors.add(ErrorMessasges.INVALID_LOGIN_OR_PASSWORD);

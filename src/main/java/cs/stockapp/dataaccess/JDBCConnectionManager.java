@@ -4,5 +4,5 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public interface JDBCConnectionManager {
-    Connection getDatabaseConnection() throws SQLException;
+    Connection getDatabaseConnection();
 }
