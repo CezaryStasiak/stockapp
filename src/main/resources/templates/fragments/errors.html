@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="errorsFragment">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto" th:each="error : ${errors}">
+                <p th:text="${error}" class="alert alert-danger"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

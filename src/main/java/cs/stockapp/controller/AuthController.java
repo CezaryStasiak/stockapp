@@ -26,25 +26,25 @@ public class AuthController {
         this.sessionService = sessionService;
     }
 
-    @GetMapping(ActionsMappings.LOGIN_MAPPING)
+    @GetMapping(ActionsMappings.LOGIN)
     public String login(){
         return ViewMappings.LOGIN_VIEW;
     }
 
-    @PostMapping(ActionsMappings.LOGIN_MAPPING)
+    @PostMapping(ActionsMappings.LOGIN)
     public String login(@RequestParam String name,
                         @RequestParam String password,
                         HttpServletResponse response, Model model) {
         List<String> errors = new ArrayList<>();
 
-        if (name == null || password == null || response == null){
+        if (name == null || password == null){
             errors.add(ErrorMessasges.NOT_ALL_DATA_PROVIDED);
-            return "redirect:" + ActionsMappings.LOGIN_MAPPING;
+            return "redirect:" + ActionsMappings.LOGIN;
         }
 
         try{
             if(sessionService.loginUser(name, password, response)){
-                return "redirect:" + ActionsMappings.INVENTORY_MAPPING;
+                return "redirect:" + ActionsMappings.INVENTORY;
             }
             else{
                 errors.add(ErrorMessasges.INVALID_LOGIN_OR_PASSWORD);
@@ -54,14 +54,14 @@ public class AuthController {
         }
 
         model.addAttribute("errors", errors);
-        return ActionsMappings.LOGIN_MAPPING;
+        return ActionsMappings.LOGIN;
 
     }
 
-    @GetMapping(ActionsMappings.LOGOUT_MAPPING)
+    @GetMapping(ActionsMappings.LOGOUT)
     public String logout(HttpServletRequest request, HttpServletResponse response){
         int userId = (int) request.getSession().getAttribute("userId");
         sessionService.logoutUser(response, userId);
-        return "redirect:" + ActionsMappings.LOGIN_MAPPING;
+        return "redirect:" + ActionsMappings.LOGIN;
     }
 }

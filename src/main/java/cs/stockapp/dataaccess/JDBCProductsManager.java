@@ -11,4 +11,6 @@ public interface JDBCProductsManager {
     List<ProductOnHand> getProductsOnHandByUserId(int id) throws SQLException;
 
     List<Product> getCurrentlyAvailableProducts() throws SQLException;
+
+    void addOrUpdateProductOnHand(int productId, int userId, float quantity, boolean setQuantity) throws SQLException;
 }

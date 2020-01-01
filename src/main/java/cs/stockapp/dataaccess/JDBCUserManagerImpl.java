@@ -17,45 +17,38 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
     }
 
     @Override
-    public int getUserIdIfExists(String userName, String password) throws SQLException{
+    public int getUserIdIfExists(String userName, String password) throws SQLException {
         int id = -1;
         Connection connection = connectionManager.getDatabaseConnection();
-        try {
-            PreparedStatement query =
-                    connection.prepareStatement("{call " + StoredProceduresMapping.GET_USER_ID_IF_EXISTS + "(?,?)}");
-            query.setString(1, userName);
-            query.setString(2, password);
-            ResultSet set = query.executeQuery();
+        PreparedStatement query =
+                connection.prepareStatement("{call " + StoredProceduresMapping.GET_USER_ID_IF_EXISTS + "(?,?)}");
+        query.setString(1, userName);
+        query.setString(2, password);
+        ResultSet set = query.executeQuery();
 
-            if (set.first()) {
-                id = set.getInt("id");
-            }
+        if (set.first()) {
+            id = set.getInt("id");
         }
-        finally {
-            connection.close();
-            return id;
-        }
+        connection.close();
+        return id;
     }
 
     @Override
-    public String getUserFirstNameByUserId(int id) throws SQLException{
+    public String getUserFirstNameByUserId(int id) throws SQLException {
         String userFirstName = "";
         Connection connection = connectionManager.getDatabaseConnection();
 
-        try{
-            PreparedStatement query =
-                    connection.prepareStatement("{call " + StoredProceduresMapping.GET_USER_FIRST_NAME_BY_USER_ID + "(?)}");
-            query.setInt(1, id);
-            ResultSet set = query.executeQuery();
+        PreparedStatement query =
+                connection.prepareStatement("{call " + StoredProceduresMapping.GET_USER_FIRST_NAME_BY_USER_ID + "(?)}");
+        query.setInt(1, id);
+        ResultSet set = query.executeQuery();
 
-            if (set.first()) {
-                userFirstName = set.getString("name");
-            }
-
-        } finally {
-            connection.close();
-            return userFirstName;
+        if (set.first()) {
+            userFirstName = set.getString("name");
         }
+
+        connection.close();
+        return userFirstName;
     }
 
     @Override

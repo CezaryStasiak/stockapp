@@ -28,12 +28,7 @@
                 </div>
             </form>
         </div>
-<div class="container">
-    <div class="row">
-        <div class="mx-auto" th:each="error : ${errors}">
-            <p th:text="${error}" class="alert alert-danger"></p>
-        </div>
-    </div>
+<div th:replace="fragments/errors :: errorsFragment">
 </div>
 </body>
 </html>

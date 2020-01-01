@@ -14,7 +14,7 @@
     <div class="row justify-content-md-center">
         <h2>Quantity change</h2>
     </div>
-    <form action="changeProducts" method="post">
+    <form action="changeProductQuantity" method="post">
         <div class="row justify-content-md-center">
             <select name="product" required size="5" style="width:400px;margin:20px;">
                 <option th:each="product : ${products}" th:text="${product.name} + ' ' + ${product.unit}"
@@ -23,7 +23,7 @@
         </div>
         <div class="row justify-content-md-center" style="margin:20px;">
             <label for="num">Quantity</label>
-            <input id="num" type="number">
+            <input min="0" step="0.001" name="quantity" id="num" type="number">
         </div>
         <div class="row justify-content-md-center" style="margin:20px;">
             <select name="operation" required>
@@ -36,6 +36,8 @@
             <input type="submit" value="Submit">
         </div>
     </form>
+</div>
+<div th:replace="fragments/errors :: errorsFragment">
 </div>
 <div th:replace="fragments/scripts :: scriptsFragment">
 </div>

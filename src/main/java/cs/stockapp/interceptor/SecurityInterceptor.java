@@ -2,9 +2,7 @@ package cs.stockapp.interceptor;
 
 import cs.stockapp.mapping.ActionsMappings;
 import cs.stockapp.service.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +25,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
             session.setAttribute("userId", userId);
             return true;
         }
-        response.sendRedirect(ActionsMappings.LOGIN_MAPPING);
+        response.sendRedirect(ActionsMappings.LOGIN);
         return false;
     }
 }

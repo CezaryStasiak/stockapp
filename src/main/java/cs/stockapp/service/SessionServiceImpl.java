@@ -44,7 +44,7 @@ public class SessionServiceImpl implements SessionService {
                 String hash = userName + password;
                 UserToken userToken = TokenFactory.getUserToken(userId, Integer.toString(hash.hashCode()));
                 userTokenService.addUserTokenOrUpdateExisting(userToken);
-                Cookie loginCookie = CookieFactory.getLoginCookie(userToken.getToken(), 30);
+                Cookie loginCookie = CookieFactory.getLoginCookie(userToken.getToken(), 60*30);
                 response.addCookie(loginCookie);
                 return true;
         } else {

@@ -5,5 +5,9 @@ public final class StoredProceduresMapping {
     public static final String GET_USER_FIRST_NAME_BY_USER_ID = "web_getUserFirstNameByUserId";
     public static final String GET_PRODUCTS_ON_HAND_BY_USER_ID = "web_getProductsOnHandByUserId";
     public static final String GET_CURRENT_PRODUCTS = "web_getCurrentlyAvailableProducts";
+    public static final String GET_ID_IF_PRODUCT_EXISTS = "web_getProductById";
+    public static final String UPDATE_PRODUCT = "web_updateProductsOnHandCount";
+    public static final String INSERT_PRODUCT = "web_insertNewProductOnHand";
+    public static final String SET_PRODUCT_QUANTITY = "web_setProductsOnHandCount";
 
 }

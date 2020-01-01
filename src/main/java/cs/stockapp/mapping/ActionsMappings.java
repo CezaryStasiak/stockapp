@@ -1,8 +1,9 @@
 package cs.stockapp.mapping;
 
 public class ActionsMappings {
-    public static final String INVENTORY_MAPPING = "/shop/inventory";
-    public static final String PRODUCTS_MAPPING = "/shop/products";
-    public static final String LOGIN_MAPPING = "/login";
-    public static final String LOGOUT_MAPPING = "/logout";
+    public static final String INVENTORY = "/shop/inventory";
+    public static final String PRODUCTS = "/shop/products";
+    public static final String CHANGE_PRODUCT_QUANTITY = "/shop/changeProductQuantity";
+    public static final String LOGIN = "/login";
+    public static final String LOGOUT = "/logout";
 }

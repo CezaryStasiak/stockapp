@@ -10,15 +10,10 @@ import java.sql.SQLException;
 public class JDBCConnectionManagerImpl implements JDBCConnectionManager {
 
     @Override
-    public Connection getDatabaseConnection() {
+    public Connection getDatabaseConnection() throws SQLException {
 
         Connection connection = null;
-
-        try {
-            connection = DriverManager.getConnection(JDBCConfig.CONNECTION_STRING, JDBCConfig.USER_NAME, JDBCConfig.PASSWORD);
-        } catch (SQLException e){
-
-        }
+        connection = DriverManager.getConnection(JDBCConfig.CONNECTION_STRING, JDBCConfig.USER_NAME, JDBCConfig.PASSWORD);
         return connection;
     }
 }
