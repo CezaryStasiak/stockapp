@@ -1,10 +1,12 @@
 package cs.stockapp.dataaccess;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Service
 public class JDBCUserManagerImpl implements JDBCUserManager {
