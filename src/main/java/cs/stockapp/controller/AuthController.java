@@ -33,8 +33,8 @@ public class AuthController {
 
     @PostMapping(ActionsMappings.LOGIN_MAPPING)
     public String login(@RequestParam String name,
-                        @RequestParam String password ,
-                        HttpServletResponse response, HttpServletRequest request, Model model) {
+                        @RequestParam String password,
+                        HttpServletResponse response, Model model) {
         List<String> errors = new ArrayList<>();
 
         if (name == null || password == null || response == null){

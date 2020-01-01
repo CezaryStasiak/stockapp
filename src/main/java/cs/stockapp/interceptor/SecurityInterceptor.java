@@ -22,7 +22,6 @@ public class SecurityInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         int userId = sessionService.getUserIdIfIsAuthenticated(request);
-        System.out.println("SecurityInterceptor reached!");
         if (userId != -1){
             HttpSession session = request.getSession();
             session.setAttribute("userId", userId);

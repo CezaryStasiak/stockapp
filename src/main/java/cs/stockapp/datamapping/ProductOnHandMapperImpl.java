@@ -1,6 +1,5 @@
 package cs.stockapp.datamapping;
 
-import cs.stockapp.models.Product;
 import cs.stockapp.models.ProductOnHand;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductMapperImpl implements ProductMapper {
+public class ProductOnHandMapperImpl implements ProductOnHandMapper {
 
     @Override
-    public List<Product> getProductsFromCurrentProducts(ResultSet set) throws SQLException {
-        List<Product> products = new ArrayList<Product>();
+    public List<ProductOnHand> getProductsFromProductsOnHand(ResultSet set) throws SQLException {
+
+        List<ProductOnHand> products = new ArrayList<ProductOnHand>();
 
         while (set.next()) {
             int id = set.getInt("id");
             String name = set.getString("name");
-            String unit = set.getString("unit");
             double price = set.getDouble("price");
+            float amount = set.getFloat("amount");
+            String unit = set.getString("unit");
 
-            products.add(new Product(id, name, price, unit));
+            products.add(new ProductOnHand(id, name, price, unit, amount));
         }
         return products;
     }

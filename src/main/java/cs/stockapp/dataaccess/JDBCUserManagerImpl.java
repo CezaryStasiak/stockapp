@@ -20,7 +20,7 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
     public int getUserIdIfExists(String userName, String password) throws SQLException{
         int id = -1;
         Connection connection = connectionManager.getDatabaseConnection();
-        try{
+        try {
             PreparedStatement query =
                     connection.prepareStatement("{call " + StoredProceduresMapping.GET_USER_ID_IF_EXISTS + "(?,?)}");
             query.setString(1, userName);
@@ -30,8 +30,6 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
             if (set.first()) {
                 id = set.getInt("id");
             }
-
-        }catch (SQLException e){
         }
         finally {
             connection.close();
@@ -54,9 +52,7 @@ public class JDBCUserManagerImpl implements JDBCUserManager {
                 userFirstName = set.getString("name");
             }
 
-        }catch (SQLException e){
-        }
-        finally {
+        } finally {
             connection.close();
             return userFirstName;
         }

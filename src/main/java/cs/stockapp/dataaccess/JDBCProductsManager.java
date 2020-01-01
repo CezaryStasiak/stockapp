@@ -1,11 +1,14 @@
 package cs.stockapp.dataaccess;
 
 import cs.stockapp.models.Product;
+import cs.stockapp.models.ProductOnHand;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface JDBCProductsManager {
 
-    List<Product> getProductsOnHandByUserId(int id) throws SQLException;
+    List<ProductOnHand> getProductsOnHandByUserId(int id) throws SQLException;
+
+    List<Product> getCurrentlyAvailableProducts() throws SQLException;
 }

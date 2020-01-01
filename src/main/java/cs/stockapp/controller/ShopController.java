@@ -5,6 +5,7 @@ import cs.stockapp.dataaccess.JDBCUserManager;
 import cs.stockapp.mapping.ActionsMappings;
 import cs.stockapp.mapping.ViewMappings;
 import cs.stockapp.models.Product;
+import cs.stockapp.models.ProductOnHand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,18 +33,32 @@ public class ShopController {
 
         Object userId = request.getSession().getAttribute("userId");
 
-        List<Product> products = new ArrayList<>();
+        List<ProductOnHand> products = new ArrayList<>();
 
         try {
             products = productsManager.getProductsOnHandByUserId((int) userId);
 
-            System.out.println(products);
         }
         catch (SQLException e){
         }
 
         model.addAttribute("products", products);
         return ViewMappings.INVENTORY_VIEW;
+    }
+
+    @GetMapping(ActionsMappings.PRODUCTS_MAPPING)
+    public String products(Model model){
+        List<Product> products = new ArrayList<>();
+
+        try {
+            products = productsManager.getCurrentlyAvailableProducts();
+
+        }
+        catch (SQLException e){
+        }
+        model.addAttribute("products", products);
+
+        return ViewMappings.PRODUCTS_VIEW;
     }
 
 }
