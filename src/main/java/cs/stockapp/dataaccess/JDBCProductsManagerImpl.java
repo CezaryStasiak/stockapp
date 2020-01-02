@@ -63,7 +63,7 @@ public class JDBCProductsManagerImpl implements JDBCProductsManager {
     }
 
     @Override
-    public void addOrUpdateProductOnHand(int productId, int userId, float quantity, boolean setQuantity) throws SQLException {
+    public void addOrUpdateProductOnHandQuantity(int productId, int userId, float quantity, boolean setQuantity) throws SQLException {
 
         if (productExists(productId)) {
             if (setQuantity) {

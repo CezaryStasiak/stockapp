@@ -2,7 +2,6 @@ package cs.stockapp.service;
 
 import cs.stockapp.dataaccess.JDBCUserManager;
 import cs.stockapp.factory.CookieFactory;
-import cs.stockapp.factory.TokenFactory;
 import cs.stockapp.models.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class SessionServiceImpl implements SessionService {
 
         if (userId != -1){
                 String hash = userName + password;
-                UserToken userToken = TokenFactory.getUserToken(userId, Integer.toString(hash.hashCode()));
+                UserToken userToken = new UserToken(userId, Integer.toString(hash.hashCode()));
                 userTokenService.addUserTokenOrUpdateExisting(userToken);
                 Cookie loginCookie = CookieFactory.getLoginCookie(userToken.getToken(), 60*30);
                 response.addCookie(loginCookie);

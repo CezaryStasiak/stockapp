@@ -32,7 +32,7 @@ public class ShopController {
     }
 
     @GetMapping(ActionsMappings.INVENTORY)
-    public String welcome(HttpServletRequest request, Model model) {
+    public String inventory(HttpServletRequest request, Model model) {
 
         int userId = (int) request.getSession().getAttribute("userId");
 
@@ -46,6 +46,7 @@ public class ShopController {
         catch (SQLException e){
             errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
         }
+
         model.addAttribute("errors", errors);
         model.addAttribute("products", products);
         return ViewMappings.INVENTORY_VIEW;
@@ -63,6 +64,8 @@ public class ShopController {
         catch (SQLException e){
             errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
         }
+
+
         model.addAttribute("products", products);
         model.addAttribute("errors", errors);
         return ViewMappings.PRODUCTS_VIEW;
@@ -79,17 +82,22 @@ public class ShopController {
 
         if (operation == null){
             errors.add(ErrorMessasges.NOT_ALL_DATA_PROVIDED);
+            return "redirect:" + ActionsMappings.PRODUCTS;
         }
 
         int userId = (int) request.getSession().getAttribute("userId");
+
         try {
             if (operation.equals("add")){
-                productsManager.addOrUpdateProductOnHand(product, userId, quantity, false);
+                productsManager.addOrUpdateProductOnHandQuantity(product, userId, quantity, false);
             } else if (operation.equals("sub")){
-                productsManager.addOrUpdateProductOnHand(product, userId, -quantity, false);
+                productsManager.addOrUpdateProductOnHandQuantity(product, userId, -quantity, false);
+            } else if (operation.equals("set")){
+                productsManager.addOrUpdateProductOnHandQuantity(product, userId, quantity, true);
             } else {
-                productsManager.addOrUpdateProductOnHand(product, userId, quantity, true);
+                errors.add(ErrorMessasges.NOT_ALL_DATA_PROVIDED);
             }
+
         } catch (SQLException e){
             errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
         }

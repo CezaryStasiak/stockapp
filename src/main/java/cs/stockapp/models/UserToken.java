@@ -1,8 +1,8 @@
 package cs.stockapp.models;
 
-public class UserToken {
-    private int id;
-    private String token;
+public final class UserToken {
+    private final int id;
+    private final String token;
 
     public UserToken(int id, String token){
         this.id = id;
