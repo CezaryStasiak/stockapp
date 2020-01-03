@@ -10,7 +10,7 @@ public interface SessionService {
 
     int getUserIdIfIsAuthenticated(HttpServletRequest request);
 
-    boolean loginUser(String userName, String password, HttpServletResponse response) throws SQLException;
+    boolean loginUser(String userName, String password, HttpServletResponse response);
 
     void logoutUser(HttpServletResponse response, int id);
 

@@ -30,7 +30,7 @@ public class ProductsManager {
 
     public List<ProductsOnHandQuantityModel> getProductsOnHandByUserId(int id){
 
-        int shopId = userRepository.getShopIdByUserId(id);
+        int shopId = userRepository.getUsersShopId(id);
 
         List<ProductsOnHandQuantityModel> resultList = new ArrayList<>();
 
@@ -47,21 +47,21 @@ public class ProductsManager {
 
     public void addQuantityForProduct(int productId, double productQuantity, int userId){
 
-        int shopId = userRepository.getShopIdByUserId(userId);
+        int shopId = userRepository.getUsersShopId(userId);
 
         productsOnHandRepository.changeProductQuantity(shopId, productId, productQuantity);
     }
 
     public void substractQuantityForProduct(int productId, double productQuantity, int userId){
 
-        int shopId = userRepository.getShopIdByUserId(userId);
+        int shopId = userRepository.getUsersShopId(userId);
         productQuantity = -productQuantity;
         productsOnHandRepository.changeProductQuantity(shopId, productId, productQuantity);
     }
 
     public void setQuantityForProduct(int productId, double quantity, int userId){
 
-        int shopId = userRepository.getShopIdByUserId(userId);
+        int shopId = userRepository.getUsersShopId(userId);
 
         productsOnHandRepository.setProductQuantity(shopId, productId, quantity);
     }

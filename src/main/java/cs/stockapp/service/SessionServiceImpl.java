@@ -1,5 +1,6 @@
 package cs.stockapp.service;
 
+import cs.stockapp.data.repositories.UserRepositoryImpl;
 import cs.stockapp.dataaccess.JDBCUserManager;
 import cs.stockapp.factory.CookieFactory;
 import cs.stockapp.models.UserToken;
@@ -14,13 +15,15 @@ import java.sql.SQLException;
 @Service
 public class SessionServiceImpl implements SessionService {
 
-    private UserTokenService userTokenService;
+    private final UserTokenService userTokenService;
     private JDBCUserManager jdbcUserManager;
+    private final UserRepositoryImpl userRepository;
 
     @Autowired
-    public SessionServiceImpl(UserTokenService userTokenService, JDBCUserManager jdbcUserManager){
+    public SessionServiceImpl(UserTokenService userTokenService, JDBCUserManager jdbcUserManager, UserRepositoryImpl userRepository){
         this.jdbcUserManager = jdbcUserManager;
         this.userTokenService = userTokenService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,9 +38,9 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public boolean loginUser(String userName, String password, HttpServletResponse response) throws SQLException {
+    public boolean loginUser(String userName, String password, HttpServletResponse response){
 
-        int userId = jdbcUserManager.getUserIdIfExists(userName, password);
+        int userId = userRepository.getUserId(userName, password);
 
         if (userId != -1){
                 String hash = userName + password;
