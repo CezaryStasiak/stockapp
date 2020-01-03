@@ -1,12 +1,10 @@
 package cs.stockapp.controller;
 
-import cs.stockapp.dataaccess.JDBCProductsManager;
-import cs.stockapp.dataaccess.JDBCUserManager;
+import cs.stockapp.data.entities.ProductEntity;
+import cs.stockapp.data.logic.ProductsManager;
+import cs.stockapp.data.models.ProductsOnHandQuantityModel;
 import cs.stockapp.mapping.ActionsMappings;
-import cs.stockapp.mapping.ErrorMessasges;
 import cs.stockapp.mapping.ViewMappings;
-import cs.stockapp.models.Product;
-import cs.stockapp.models.ProductOnHand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,20 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class ShopController {
 
-    private final JDBCUserManager jdbcUserManager;
-    private final JDBCProductsManager productsManager;
+    private final ProductsManager productsManager;
 
     @Autowired
-    public ShopController(JDBCUserManager jdbcUserManager, JDBCProductsManager productsManager){
-         this.jdbcUserManager = jdbcUserManager;
-         this.productsManager = productsManager;
+    public ShopController(ProductsManager productsManager) {
+        this.productsManager = productsManager;
     }
 
     @GetMapping(ActionsMappings.INVENTORY)
@@ -36,38 +30,20 @@ public class ShopController {
 
         int userId = (int) request.getSession().getAttribute("userId");
 
-        List<ProductOnHand> products = new ArrayList<>();
-        List<String> errors = new ArrayList<>();
+        List<ProductsOnHandQuantityModel> list = productsManager.getProductsOnHandByUserId(userId);
 
-        try {
-            products = productsManager.getProductsOnHandByUserId(userId);
+        model.addAttribute("products", list);
 
-        }
-        catch (SQLException e){
-            errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
-        }
-
-        model.addAttribute("errors", errors);
-        model.addAttribute("products", products);
         return ViewMappings.INVENTORY_VIEW;
     }
 
     @GetMapping(ActionsMappings.PRODUCTS)
-    public String products(Model model){
+    public String products(Model model) {
 
-        List<String> errors = new ArrayList<>();
-        List<Product> products = new ArrayList<>();
-
-        try {
-            products = productsManager.getCurrentlyAvailableProducts();
-        }
-        catch (SQLException e){
-            errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
-        }
-
+        List<ProductEntity> products = productsManager.getAllProducts();
 
         model.addAttribute("products", products);
-        model.addAttribute("errors", errors);
+
         return ViewMappings.PRODUCTS_VIEW;
     }
 
@@ -76,33 +52,24 @@ public class ShopController {
                                         HttpServletRequest request,
                                         @RequestParam int product,
                                         @RequestParam float quantity,
-                                        @RequestParam String operation){
-
-        List<String> errors = new ArrayList<>();
-
-        if (operation == null){
-            errors.add(ErrorMessasges.NOT_ALL_DATA_PROVIDED);
-            return "redirect:" + ActionsMappings.PRODUCTS;
-        }
+                                        @RequestParam int operation) {
 
         int userId = (int) request.getSession().getAttribute("userId");
 
-        try {
-            if (operation.equals("add")){
-                productsManager.addOrUpdateProductOnHandQuantity(product, userId, quantity, false);
-            } else if (operation.equals("sub")){
-                productsManager.addOrUpdateProductOnHandQuantity(product, userId, -quantity, false);
-            } else if (operation.equals("set")){
-                productsManager.addOrUpdateProductOnHandQuantity(product, userId, quantity, true);
-            } else {
-                errors.add(ErrorMessasges.NOT_ALL_DATA_PROVIDED);
-            }
+        switch (operation) {
+            case 1:
+                productsManager.addQuantityForProduct(product, quantity, userId);
+                break;
+            case 2:
+                productsManager.substractQuantityForProduct(product, quantity, userId);
+                break;
+            case 3:
+                productsManager.setQuantityForProduct(product, quantity, userId);
+            default:
+                break;
 
-        } catch (SQLException e){
-            errors.add(ErrorMessasges.DB_CONNECTION_ERROR);
         }
 
-        model.addAttribute("errors", errors);
         return "redirect:" + ActionsMappings.PRODUCTS;
     }
 

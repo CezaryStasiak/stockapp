@@ -23,12 +23,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="product : ${products}">
-        <td th:text="${product.name}"></td>
-        <td th:text="${#numbers.formatDecimal(product.amount, 0, 3)}"></td>
-        <td th:text="${product.unit}"></td>
-        <td th:text="${product.price}"></td>
-        <td th:text="${#numbers.formatDecimal(product.totalPrice, 0, 2)}"></td>
+    <tr th:each="product : ${#lists.sort(products)}">
+        <td th:text="${product.getProductEntity().getName()}"></td>
+        <td th:text="${#numbers.formatDecimal(product.getQuantity(), 0, 3)}"></td>
+        <td th:text="${product.getProductEntity().getUnit()}"></td>
+        <td th:text="${product.getProductEntity().getPrice()}"></td>
+        <td th:text="${#numbers.formatDecimal(product.getProductEntity().getPrice() * product.getQuantity(), 0, 2)}"></td>
     </tr>
     </tbody>
 </table>

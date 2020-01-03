@@ -15,8 +15,8 @@
     <form action="changeProductQuantity" method="post">
         <div class="row justify-content-md-center">
             <select name="product" required size="5" style="width:400px;margin:20px;">
-                <option th:each="product : ${products}" th:text="${product.name} + ' ' + ${product.unit}"
-                        th:value="${product.id}"></option>
+                <option th:each="product : ${#lists.sort(products)}" th:text="${product.getName()} + ' ' + ${product.getUnit()}"
+                        th:value="${product.getId()}"></option>
             </select>
         </div>
         <div class="row justify-content-md-center" style="margin:20px;">
@@ -25,9 +25,9 @@
         </div>
         <div class="row justify-content-md-center" style="margin:20px;">
             <select name="operation" required>
-                <option value="add">Add quantity</option>
-                <option value="sub">Substract quantity</option>
-                <option value="set">Set quantity</option>
+                <option value="1">Add quantity</option>
+                <option value="2">Substract quantity</option>
+                <option value="3">Set quantity</option>
             </select>
         </div>
         <div class="row justify-content-md-center">
