@@ -1,7 +1,7 @@
 package cs.stockapp.controller;
 
 import cs.stockapp.data.entities.ProductEntity;
-import cs.stockapp.data.logic.ProductsManager;
+import cs.stockapp.service.ProductsService;
 import cs.stockapp.data.models.ProductsOnHandQuantityModel;
 import cs.stockapp.mapping.ActionsMappings;
 import cs.stockapp.mapping.ViewMappings;
@@ -18,10 +18,10 @@ import java.util.List;
 @Controller
 public class ShopController {
 
-    private final ProductsManager productsManager;
+    private final ProductsService productsManager;
 
     @Autowired
-    public ShopController(ProductsManager productsManager) {
+    public ShopController(ProductsService productsManager) {
         this.productsManager = productsManager;
     }
 

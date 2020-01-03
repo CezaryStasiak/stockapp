@@ -1,4 +1,4 @@
-package cs.stockapp.data.logic;
+package cs.stockapp.service;
 
 import cs.stockapp.data.entities.ProductEntity;
 import cs.stockapp.data.entities.ProductsOnHandEntity;
@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductsManager {
+public class ProductsService {
 
     private final ProductsOnHandRepositoryImpl productsOnHandRepository;
     private final ProductRepositoryImpl productRepository;
     private final UserRepositoryImpl userRepository;
 
     @Autowired
-    public ProductsManager(ProductsOnHandRepositoryImpl productsOnHandRepository, ProductRepositoryImpl productRepository, UserRepositoryImpl userRepository) {
+    public ProductsService(ProductsOnHandRepositoryImpl productsOnHandRepository, ProductRepositoryImpl productRepository, UserRepositoryImpl userRepository) {
         this.productsOnHandRepository = productsOnHandRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;

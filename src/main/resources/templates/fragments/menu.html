@@ -20,6 +20,16 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/shop/products}">Products</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Products
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{/shop/products}">Add</a>
+                        <a class="dropdown-item" th:href="@{/shop/products}">Remove</a>
+                        <a class="dropdown-item" th:href="@{/shop/products}">Set quantity</a>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/logout}">Logout</a>
                 </li>

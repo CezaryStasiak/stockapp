@@ -1,7 +1,6 @@
 package cs.stockapp.controller;
 
 import cs.stockapp.mapping.ActionsMappings;
-import cs.stockapp.mapping.ErrorMessasges;
 import cs.stockapp.mapping.ViewMappings;
 import cs.stockapp.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class AuthController {

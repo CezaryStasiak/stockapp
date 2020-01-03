@@ -1,7 +1,6 @@
 package cs.stockapp.service;
 
 import cs.stockapp.data.repositories.UserRepositoryImpl;
-import cs.stockapp.dataaccess.JDBCUserManager;
 import cs.stockapp.factory.CookieFactory;
 import cs.stockapp.models.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +9,15 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 
 @Service
 public class SessionServiceImpl implements SessionService {
 
     private final UserTokenService userTokenService;
-    private JDBCUserManager jdbcUserManager;
     private final UserRepositoryImpl userRepository;
 
     @Autowired
-    public SessionServiceImpl(UserTokenService userTokenService, JDBCUserManager jdbcUserManager, UserRepositoryImpl userRepository){
-        this.jdbcUserManager = jdbcUserManager;
+    public SessionServiceImpl(UserTokenService userTokenService, UserRepositoryImpl userRepository){
         this.userTokenService = userTokenService;
         this.userRepository = userRepository;
     }
