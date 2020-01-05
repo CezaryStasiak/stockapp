@@ -4,15 +4,18 @@ import cs.stockapp.data.commands.ChangeQuantityForProductCommand;
 import cs.stockapp.data.entities.ProductEntity;
 import cs.stockapp.data.entities.ProductsOnHandEntity;
 import cs.stockapp.data.models.ProductsOnHandQuantityModel;
-import cs.stockapp.data.repositories.*;
+import cs.stockapp.data.repositories.ProductRepositoryImpl;
+import cs.stockapp.data.repositories.ProductsOnHandRepositoryImpl;
+import cs.stockapp.data.repositories.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional
 public class ProductsService {
 
     private final ProductsOnHandRepositoryImpl productsOnHandRepository;
@@ -72,15 +75,10 @@ public class ProductsService {
     }
 
     private ProductsOnHandEntity getProductOrNewIfDoesntExists(ChangeQuantityForProductCommand command) {
+
         int shopId = userRepository.getUsersShopId(command.getUserId());
 
-        Optional<ProductsOnHandEntity> product =
-                Optional.ofNullable(productsOnHandRepository.getDistinctBy(shopId, command.getProductId()));
-
-        if (product.isPresent()) {
-            return product.get();
-        } else {
-            return new ProductsOnHandEntity(shopId, command.getProductId(), 0);
-        }
+        return productsOnHandRepository.getDistinctBy(shopId, command.getProductId())
+                .orElse(new ProductsOnHandEntity(shopId, command.getProductId(), 0));
     }
 }

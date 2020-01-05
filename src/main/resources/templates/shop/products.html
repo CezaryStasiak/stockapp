@@ -14,7 +14,7 @@
     </div>
     <form method="post">
         <div class="row justify-content-md-center">
-            <select name="product" required size="5" style="width:400px;margin:20px;">
+            <select name="productId" required size="5" style="width:400px;margin:20px;">
                 <option th:each="product : ${#lists.sort(products)}" th:text="${product.getName()} + ' ' + ${product.getUnit()}"
                         th:value="${product.getId()}"></option>
             </select>

@@ -1,16 +1,18 @@
 package cs.stockapp.data.commands;
 
 public final class ChangeQuantityForProductCommand {
-    private final int productId;
-    private final int userId;
-    private final double quantity;
+    private int productId;
+    private int userId;
+    private double quantity;
 
-    public ChangeQuantityForProductCommand(int productId, int userId, double quantity) {
+    public ChangeQuantityForProductCommand(int productId, double quantity) {
         this.productId = productId;
-        this.userId = userId;
         this.quantity = quantity;
     }
 
+    public void setUserId(int userId){
+        this.userId = userId;
+    }
     public int getProductId() {
         return productId;
     }

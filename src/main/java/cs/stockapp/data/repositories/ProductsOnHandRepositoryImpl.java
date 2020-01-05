@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ProductsOnHandRepositoryImpl {
@@ -20,15 +21,8 @@ public class ProductsOnHandRepositoryImpl {
         productOnHandRepository.saveAndFlush(productsOnHandEntity);
     }
 
-    public ProductsOnHandEntity getDistinctBy(int shopId, int productId){
-        return productOnHandRepository.getDistinctBy(shopId, productId);
+    public Optional<ProductsOnHandEntity> getDistinctBy(int shopId, int productId){
+        return Optional.ofNullable(productOnHandRepository.getDistinctBy(shopId, productId));
     }
 
-    public void changeProductQuantity(int shopId, int productId, double quantity){
-        productOnHandRepository.updateQuantity(shopId, productId, quantity);
-    }
-
-    public void setProductQuantity(int shopId, int productId, double quantity) {
-        productOnHandRepository.setQuantity(shopId, productId, quantity);
-    }
 }

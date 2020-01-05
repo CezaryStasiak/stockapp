@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -50,12 +51,10 @@ public class ShopController {
 
     @PostMapping(ActionsMappings.ADD_PRODUCT_QUANTITY)
     public String addQuantity(HttpServletRequest request,
-                              @RequestParam int product,
-                              @RequestParam float quantity) {
+                              @ModelAttribute ChangeQuantityForProductCommand command) {
 
         int userId = (int) request.getSession().getAttribute("userId");
-
-        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, userId, quantity);
+        command.setUserId(userId);
         productsManager.addQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;
@@ -68,7 +67,7 @@ public class ShopController {
 
         int userId = (int) request.getSession().getAttribute("userId");
 
-        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, userId, quantity);
+        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, quantity);
         productsManager.substractQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;
@@ -81,7 +80,7 @@ public class ShopController {
 
         int userId = (int) request.getSession().getAttribute("userId");
 
-        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, userId, quantity);
+        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, quantity);
         productsManager.setQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;

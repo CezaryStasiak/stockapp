@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user", schema = "stockdb", catalog = "")
 public class UserEntity {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
     private String username;
     private String password;
@@ -13,8 +16,6 @@ public class UserEntity {
     private String surename;
     private int shopId;
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }

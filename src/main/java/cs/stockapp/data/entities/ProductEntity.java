@@ -6,13 +6,15 @@ import java.io.Serializable;
 @Entity
 @Table(name = "product", schema = "stockdb", catalog = "")
 public class ProductEntity implements Serializable, Comparable<ProductEntity>{
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
     private String name;
     private String unit;
     private float price;
 
-    @Id
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }

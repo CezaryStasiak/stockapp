@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "shop", schema = "stockdb", catalog = "")
 public class ShopEntity {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
     private String name;
     private String address;
