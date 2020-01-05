@@ -22,4 +22,7 @@ public interface ProductsOnHandRepository extends JpaRepository<ProductsOnHandEn
     @Query("UPDATE ProductsOnHandEntity product SET product.amount = ?3" +
             " WHERE product.shopId = ?1 AND product.productId = ?2")
     void setQuantity(int shopId, int productId, double quantity);
+
+    @Query("SELECT product FROM ProductsOnHandEntity product WHERE product.shopId = ?1 AND product.productId = ?2")
+    ProductsOnHandEntity getDistinctBy(int shopId, int productId);
 }

@@ -12,7 +12,7 @@
     <div class="row justify-content-md-center">
         <h2>Quantity change</h2>
     </div>
-    <form action="changeProductQuantity" method="post">
+    <form method="post">
         <div class="row justify-content-md-center">
             <select name="product" required size="5" style="width:400px;margin:20px;">
                 <option th:each="product : ${#lists.sort(products)}" th:text="${product.getName()} + ' ' + ${product.getUnit()}"
@@ -23,15 +23,10 @@
             <label for="num">Quantity</label>
             <input min="0" max="1000" step="0.001" name="quantity" id="num" type="number">
         </div>
-        <div class="row justify-content-md-center" style="margin:20px;">
-            <select name="operation" required>
-                <option value="1">Add quantity</option>
-                <option value="2">Substract quantity</option>
-                <option value="3">Set quantity</option>
-            </select>
-        </div>
         <div class="row justify-content-md-center">
-            <input type="submit" value="Submit">
+            <input style="margin: 10px;" th:formaction="${T(cs.stockapp.mapping.ActionsMappings).ADD_PRODUCT_QUANTITY}" type="submit" value="Add">
+            <input style="margin: 10px;" th:formaction="${T(cs.stockapp.mapping.ActionsMappings).SUBSTRACT_PRODUCT_QUANTITY}" type="submit" value="Substract">
+            <input style="margin: 10px;" th:formaction="${T(cs.stockapp.mapping.ActionsMappings).SET_PRODUCT_QUANTITY}" type="submit" value="Set">
         </div>
     </form>
 </div>

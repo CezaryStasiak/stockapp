@@ -83,33 +83,4 @@ public class UserEntity {
         this.shopId = shopId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserEntity that = (UserEntity) o;
-
-        if (id != that.id) return false;
-        if (shopId != that.shopId) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (surename != null ? !surename.equals(that.surename) : that.surename != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (surename != null ? surename.hashCode() : 0);
-        result = 31 * result + shopId;
-        return result;
-    }
 }

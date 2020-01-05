@@ -1,5 +1,6 @@
 package cs.stockapp.controller;
 
+import cs.stockapp.data.commands.ChangeQuantityForProductCommand;
 import cs.stockapp.data.entities.ProductEntity;
 import cs.stockapp.service.ProductsService;
 import cs.stockapp.data.models.ProductsOnHandQuantityModel;
@@ -38,7 +39,7 @@ public class ShopController {
     }
 
     @GetMapping(ActionsMappings.PRODUCTS)
-    public String products(Model model) {
+    public String products(Model model){
 
         List<ProductEntity> products = productsManager.getAllProducts();
 
@@ -47,28 +48,41 @@ public class ShopController {
         return ViewMappings.PRODUCTS_VIEW;
     }
 
-    @PostMapping(ActionsMappings.CHANGE_PRODUCT_QUANTITY)
-    public String changeProductQuantity(Model model,
-                                        HttpServletRequest request,
-                                        @RequestParam int product,
-                                        @RequestParam float quantity,
-                                        @RequestParam int operation) {
+    @PostMapping(ActionsMappings.ADD_PRODUCT_QUANTITY)
+    public String addQuantity(HttpServletRequest request,
+                              @RequestParam int product,
+                              @RequestParam float quantity) {
 
         int userId = (int) request.getSession().getAttribute("userId");
 
-        switch (operation) {
-            case 1:
-                productsManager.addQuantityForProduct(product, quantity, userId);
-                break;
-            case 2:
-                productsManager.substractQuantityForProduct(product, quantity, userId);
-                break;
-            case 3:
-                productsManager.setQuantityForProduct(product, quantity, userId);
-            default:
-                break;
+        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, userId, quantity);
+        productsManager.addQuantityForProduct(command);
 
-        }
+        return "redirect:" + ActionsMappings.PRODUCTS;
+    }
+
+    @PostMapping(ActionsMappings.SUBSTRACT_PRODUCT_QUANTITY)
+    public String subQuantity(HttpServletRequest request,
+                              @RequestParam int product,
+                              @RequestParam float quantity) {
+
+        int userId = (int) request.getSession().getAttribute("userId");
+
+        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, userId, quantity);
+        productsManager.substractQuantityForProduct(command);
+
+        return "redirect:" + ActionsMappings.PRODUCTS;
+    }
+
+    @PostMapping(ActionsMappings.SET_PRODUCT_QUANTITY)
+    public String setQuantity(HttpServletRequest request,
+                              @RequestParam int product,
+                              @RequestParam float quantity) {
+
+        int userId = (int) request.getSession().getAttribute("userId");
+
+        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, userId, quantity);
+        productsManager.setQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;
     }

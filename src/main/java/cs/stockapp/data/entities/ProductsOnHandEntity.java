@@ -10,6 +10,15 @@ public class ProductsOnHandEntity {
     private int shopId;
     private int productId;
 
+    public ProductsOnHandEntity() {
+    }
+
+    public ProductsOnHandEntity(int shopId, int productId, double quantity) {
+        this.shopId = shopId;
+        this.productId = productId;
+        this.amount = quantity;
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {
@@ -50,30 +59,15 @@ public class ProductsOnHandEntity {
         this.productId = productId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ProductsOnHandEntity that = (ProductsOnHandEntity) o;
-
-        if (id != that.id) return false;
-        if (Double.compare(that.amount, amount) != 0) return false;
-        if (shopId != that.shopId) return false;
-        if (productId != that.productId) return false;
-
-        return true;
+    public void addQuantity(double quantity){
+        this.setAmount(this.getAmount() + quantity);
     }
 
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = id;
-        temp = Double.doubleToLongBits(amount);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + shopId;
-        result = 31 * result + productId;
-        return result;
+    public void substractQuantity(double quantity){
+        this.setAmount(this.getAmount() - quantity);
+    }
+
+    public void setQuantity(double quantity){
+        this.setAmount(quantity);
     }
 }

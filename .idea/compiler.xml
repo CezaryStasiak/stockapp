@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="stockapp" target="1.8" />
+      <module name="stockapp" target="11" />
       <module name="stockapp_data" target="1.8" />
     </bytecodeTargetLevel>
   </component>

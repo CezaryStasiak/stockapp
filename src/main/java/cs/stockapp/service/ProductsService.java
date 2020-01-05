@@ -1,5 +1,6 @@
 package cs.stockapp.service;
 
+import cs.stockapp.data.commands.ChangeQuantityForProductCommand;
 import cs.stockapp.data.entities.ProductEntity;
 import cs.stockapp.data.entities.ProductsOnHandEntity;
 import cs.stockapp.data.models.ProductsOnHandQuantityModel;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductsService {
@@ -24,11 +26,11 @@ public class ProductsService {
         this.userRepository = userRepository;
     }
 
-    public List<ProductEntity> getAllProducts(){
+    public List<ProductEntity> getAllProducts() {
         return productRepository.getAll();
     }
 
-    public List<ProductsOnHandQuantityModel> getProductsOnHandByUserId(int id){
+    public List<ProductsOnHandQuantityModel> getProductsOnHandByUserId(int id) {
 
         int shopId = userRepository.getUsersShopId(id);
 
@@ -37,7 +39,7 @@ public class ProductsService {
         List<ProductsOnHandEntity> productsOnHandEntities = productsOnHandRepository.getAll();
 
         for (ProductsOnHandEntity p : productsOnHandEntities) {
-            if (p.getShopId() == shopId){
+            if (p.getShopId() == shopId) {
                 int productId = p.getProductId();
                 resultList.add(new ProductsOnHandQuantityModel(productRepository.getOneById(productId), p.getAmount()));
             }
@@ -45,24 +47,40 @@ public class ProductsService {
         return resultList;
     }
 
-    public void addQuantityForProduct(int productId, double productQuantity, int userId){
+    public void addQuantityForProduct(ChangeQuantityForProductCommand addQuantityCommand) {
 
-        int shopId = userRepository.getUsersShopId(userId);
+        ProductsOnHandEntity product = getProductOrNewIfDoesntExists(addQuantityCommand);
+        product.addQuantity(addQuantityCommand.getQuantity());
+        productsOnHandRepository.save(product);
 
-        productsOnHandRepository.changeProductQuantity(shopId, productId, productQuantity);
     }
 
-    public void substractQuantityForProduct(int productId, double productQuantity, int userId){
+    public void substractQuantityForProduct(ChangeQuantityForProductCommand substractQuantityCommand) {
 
-        int shopId = userRepository.getUsersShopId(userId);
-        productQuantity = -productQuantity;
-        productsOnHandRepository.changeProductQuantity(shopId, productId, productQuantity);
+        ProductsOnHandEntity product = getProductOrNewIfDoesntExists(substractQuantityCommand);
+        product.substractQuantity(substractQuantityCommand.getQuantity());
+        productsOnHandRepository.save(product);
+
     }
 
-    public void setQuantityForProduct(int productId, double quantity, int userId){
+    public void setQuantityForProduct(ChangeQuantityForProductCommand setQuantityCommand) {
 
-        int shopId = userRepository.getUsersShopId(userId);
+        ProductsOnHandEntity product = getProductOrNewIfDoesntExists(setQuantityCommand);
+        product.setQuantity(setQuantityCommand.getQuantity());
+        productsOnHandRepository.save(product);
 
-        productsOnHandRepository.setProductQuantity(shopId, productId, quantity);
+    }
+
+    private ProductsOnHandEntity getProductOrNewIfDoesntExists(ChangeQuantityForProductCommand command) {
+        int shopId = userRepository.getUsersShopId(command.getUserId());
+
+        Optional<ProductsOnHandEntity> product =
+                Optional.ofNullable(productsOnHandRepository.getDistinctBy(shopId, command.getProductId()));
+
+        if (product.isPresent()) {
+            return product.get();
+        } else {
+            return new ProductsOnHandEntity(shopId, command.getProductId(), 0);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package cs.stockapp.controller;
 
+import cs.stockapp.exception.UserNotFoundException;
 import cs.stockapp.mapping.ActionsMappings;
 import cs.stockapp.mapping.ViewMappings;
 import cs.stockapp.service.SessionService;
@@ -31,7 +32,7 @@ public class AuthController {
     @PostMapping(ActionsMappings.LOGIN)
     public String login(@RequestParam String name,
                         @RequestParam String password,
-                        HttpServletResponse response, Model model) {
+                        HttpServletResponse response, Model model) throws UserNotFoundException {
 
         if (sessionService.loginUser(name, password, response)) {
             return "redirect:" + ActionsMappings.INVENTORY;

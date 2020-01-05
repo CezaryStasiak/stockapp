@@ -51,29 +51,6 @@ public class ProductEntity implements Serializable, Comparable<ProductEntity>{
         this.price = price;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ProductEntity that = (ProductEntity) o;
-
-        if (id != that.id) return false;
-        if (Float.compare(that.price, price) != 0) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (unit != null ? !unit.equals(that.unit) : that.unit != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (unit != null ? unit.hashCode() : 0);
-        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
-        return result;
-    }
 
     @Override
     public int compareTo(ProductEntity o) {
