@@ -3,7 +3,7 @@ package cs.stockapp.data.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "products_on_hand", schema = "stockdb", catalog = "")
+@Table(name = "products_on_hand")
 public class ProductsOnHandEntity {
 
     @Id
@@ -21,6 +21,7 @@ public class ProductsOnHandEntity {
     @Basic
     @Column(name = "product_id")
     private int productId;
+
 
     public ProductsOnHandEntity() {
     }

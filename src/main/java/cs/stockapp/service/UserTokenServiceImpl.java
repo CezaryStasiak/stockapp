@@ -19,10 +19,6 @@ public final class UserTokenServiceImpl implements UserTokenService{
         if (tryUpdate(userToken) == false){
             tokens.add(userToken);
         }
-
-        for (UserToken token : tokens){
-            System.out.println(token.getToken() + " " + token.getId());
-        }
     }
 
     private boolean tryUpdate(UserToken userToken){

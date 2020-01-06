@@ -1,6 +1,7 @@
 package cs.stockapp.data.repositories;
 
 import cs.stockapp.data.entities.ProductsOnHandEntity;
+import cs.stockapp.data.models.ProductsOnHandQuantityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

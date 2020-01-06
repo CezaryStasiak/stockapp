@@ -10,4 +10,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     @Query("SELECT user.id FROM UserEntity user WHERE user.username = ?1 AND user.password = ?2")
     int getUserId(String username, String password);
+
+    @Query("SELECT user FROM UserEntity user WHERE user.username = ?1")
+    UserEntity getDistinctByUsername(String username);
 }

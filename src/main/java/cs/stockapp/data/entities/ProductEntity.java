@@ -4,55 +4,37 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "product", schema = "stockdb", catalog = "")
+@Table(name = "product")
 public class ProductEntity implements Serializable, Comparable<ProductEntity>{
     @Id
-    @GeneratedValue
     @Column(name = "id")
     private int id;
+    @Basic
+    @Column(name = "name")
     private String name;
+    @Basic
+    @Column(name = "unit")
     private String unit;
-    private float price;
+    @Basic
+    @Column(name = "price")
+    private double price;
 
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "name")
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "unit")
     public String getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    @Basic
-    @Column(name = "price")
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
 
     @Override
     public int compareTo(ProductEntity o) {

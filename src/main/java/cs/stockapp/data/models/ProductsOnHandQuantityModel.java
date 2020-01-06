@@ -1,11 +1,12 @@
 package cs.stockapp.data.models;
 
 import cs.stockapp.data.entities.ProductEntity;
+import cs.stockapp.data.entities.ProductsOnHandEntity;
 
 
-public class ProductsOnHandQuantityModel implements Comparable<ProductsOnHandQuantityModel>{
+public class ProductsOnHandQuantityModel extends ProductsOnHandEntity implements Comparable<ProductsOnHandQuantityModel>{
     private final ProductEntity productEntity;
-    private final double quantity;
+    private double quantity;
 
     public ProductsOnHandQuantityModel(ProductEntity productEntity, double quantity) {
         this.productEntity = productEntity;

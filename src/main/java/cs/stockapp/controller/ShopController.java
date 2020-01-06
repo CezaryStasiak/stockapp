@@ -62,12 +62,10 @@ public class ShopController {
 
     @PostMapping(ActionsMappings.SUBSTRACT_PRODUCT_QUANTITY)
     public String subQuantity(HttpServletRequest request,
-                              @RequestParam int product,
-                              @RequestParam float quantity) {
+                              @ModelAttribute ChangeQuantityForProductCommand command) {
 
         int userId = (int) request.getSession().getAttribute("userId");
-
-        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, quantity);
+        command.setUserId(userId);
         productsManager.substractQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;
@@ -75,12 +73,10 @@ public class ShopController {
 
     @PostMapping(ActionsMappings.SET_PRODUCT_QUANTITY)
     public String setQuantity(HttpServletRequest request,
-                              @RequestParam int product,
-                              @RequestParam float quantity) {
+                              @ModelAttribute ChangeQuantityForProductCommand command) {
 
         int userId = (int) request.getSession().getAttribute("userId");
-
-        ChangeQuantityForProductCommand command = new ChangeQuantityForProductCommand(product, quantity);
+        command.setUserId(userId);
         productsManager.setQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;

@@ -3,10 +3,9 @@ package cs.stockapp.data.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "stockdb", catalog = "")
+@Table(name = "user")
 public class UserEntity {
     @Id
-    @GeneratedValue
     @Column(name = "id")
     private int id;
     private String username;
