@@ -21,21 +21,23 @@ public class ProductsService {
     private final ProductsOnHandRepositoryImpl productsOnHandRepository;
     private final ProductRepositoryImpl productRepository;
     private final UserRepositoryImpl userRepository;
+    private final UserProvider userProvider;
 
     @Autowired
-    public ProductsService(ProductsOnHandRepositoryImpl productsOnHandRepository, ProductRepositoryImpl productRepository, UserRepositoryImpl userRepository) {
+    public ProductsService(ProductsOnHandRepositoryImpl productsOnHandRepository, ProductRepositoryImpl productRepository, UserRepositoryImpl userRepository, UserProvider userProvider) {
         this.productsOnHandRepository = productsOnHandRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.userProvider = userProvider;
     }
 
     public List<ProductEntity> getAllProducts() {
         return productRepository.getAll();
     }
 
-    public List<ProductsOnHandQuantityModel> getProductsOnHandByUserId(int id) {
+    public List<ProductsOnHandQuantityModel> getProductsOnHandForCurrentUser() {
 
-        int shopId = userRepository.getUsersShopId(id);
+        int shopId = userRepository.getUsersShopId(userProvider.getCurrentUserId());
 
         List<ProductsOnHandQuantityModel> resultList = new ArrayList<>();
 
@@ -76,7 +78,7 @@ public class ProductsService {
 
     private ProductsOnHandEntity getProductOrNewIfDoesntExists(ChangeQuantityForProductCommand command) {
 
-        int shopId = userRepository.getUsersShopId(command.getUserId());
+        int shopId = userRepository.getUsersShopId(userProvider.getCurrentUserId());
 
         return productsOnHandRepository.getDistinctBy(shopId, command.getProductId())
                 .orElse(new ProductsOnHandEntity(shopId, command.getProductId(), 0));

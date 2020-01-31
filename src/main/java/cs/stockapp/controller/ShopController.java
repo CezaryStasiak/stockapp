@@ -32,11 +32,9 @@ public class ShopController {
     }
 
     @GetMapping(ActionsMappings.INVENTORY)
-    public String inventory(HttpServletRequest request, Model model) {
+    public String inventory(Model model) {
 
-        int userId = (int) request.getSession().getAttribute("userId");
-
-        List<ProductsOnHandQuantityModel> list = productsManager.getProductsOnHandByUserId(userId);
+        List<ProductsOnHandQuantityModel> list = productsManager.getProductsOnHandForCurrentUser();
 
         model.addAttribute("products", list);
 
@@ -54,33 +52,24 @@ public class ShopController {
     }
 
     @PostMapping(ActionsMappings.ADD_PRODUCT_QUANTITY)
-    public String addQuantity(HttpServletRequest request,
-                              @ModelAttribute ChangeQuantityForProductCommand command) {
+    public String addQuantity(@ModelAttribute ChangeQuantityForProductCommand command) {
 
-        int userId = (int) request.getSession().getAttribute("userId");
-        command.setUserId(userId);
         productsManager.addQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;
     }
 
     @PostMapping(ActionsMappings.SUBSTRACT_PRODUCT_QUANTITY)
-    public String subQuantity(HttpServletRequest request,
-                              @ModelAttribute ChangeQuantityForProductCommand command) {
+    public String subQuantity(@ModelAttribute ChangeQuantityForProductCommand command) {
 
-        int userId = (int) request.getSession().getAttribute("userId");
-        command.setUserId(userId);
         productsManager.substractQuantityForProduct(command);
-
+        
         return "redirect:" + ActionsMappings.PRODUCTS;
     }
 
     @PostMapping(ActionsMappings.SET_PRODUCT_QUANTITY)
-    public String setQuantity(HttpServletRequest request,
-                              @ModelAttribute ChangeQuantityForProductCommand command) {
+    public String setQuantity(@ModelAttribute ChangeQuantityForProductCommand command) {
 
-        int userId = (int) request.getSession().getAttribute("userId");
-        command.setUserId(userId);
         productsManager.setQuantityForProduct(command);
 
         return "redirect:" + ActionsMappings.PRODUCTS;

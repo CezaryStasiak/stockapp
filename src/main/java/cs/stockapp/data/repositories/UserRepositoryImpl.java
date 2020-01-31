@@ -18,7 +18,7 @@ public class UserRepositoryImpl {
         return userRepository.findById(userId).get().getShopId();
     }
 
-    public int getUserId(String username, String password){
-        return userRepository.getUserId(username, password);
+    public int getUserId(String username) {
+        return userRepository.getUserIdByUsername(username);
     }
 }

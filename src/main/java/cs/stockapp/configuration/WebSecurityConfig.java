@@ -8,15 +8,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserService userService;
     @Autowired
-    private UserService userService;
+    public WebSecurityConfig(UserService userService) {
+        this.userService = userService;
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -30,12 +34,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .csrf().ignoringAntMatchers("/h2-console/**")
+                .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").defaultSuccessUrl("/shop/inventory", true)
                 .permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .permitAll()
+                .and().cors().disable();
+
+        http.csrf().disable();
+
     }
 
     @Bean
