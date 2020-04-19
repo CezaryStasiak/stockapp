@@ -23,7 +23,7 @@ public class ProductsService {
     private final UserRepositoryImpl userRepository;
     private final UserProvider userProvider;
 
-    @Autowired
+
     public ProductsService(ProductsOnHandRepositoryImpl productsOnHandRepository, ProductRepositoryImpl productRepository, UserRepositoryImpl userRepository, UserProvider userProvider) {
         this.productsOnHandRepository = productsOnHandRepository;
         this.productRepository = productRepository;
@@ -33,6 +33,10 @@ public class ProductsService {
 
     public List<ProductEntity> getAllProducts() {
         return productRepository.getAll();
+    }
+
+    public List<ProductEntity> getByName(String phrase) {
+        return productRepository.getByName(phrase);
     }
 
     public List<ProductsOnHandQuantityModel> getProductsOnHandForCurrentUser() {

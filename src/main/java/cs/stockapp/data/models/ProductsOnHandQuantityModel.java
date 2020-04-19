@@ -1,8 +1,8 @@
 package cs.stockapp.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cs.stockapp.data.entities.ProductEntity;
 import cs.stockapp.data.entities.ProductsOnHandEntity;
-
 
 public class ProductsOnHandQuantityModel extends ProductsOnHandEntity implements Comparable<ProductsOnHandQuantityModel>{
     private final ProductEntity productEntity;
@@ -13,6 +13,7 @@ public class ProductsOnHandQuantityModel extends ProductsOnHandEntity implements
         this.quantity = quantity;
     }
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public ProductEntity getProductEntity() {
         return productEntity;
     }

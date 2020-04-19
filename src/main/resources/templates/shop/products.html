@@ -12,11 +12,10 @@
     <div class="row justify-content-md-center">
         <h2>Quantity change</h2>
     </div>
+    Search: <input class="row justify-content-md-center" id="search" type="text" onkeyup="loadProducts()">
     <form method="post">
         <div class="row justify-content-md-center">
-            <select name="productId" required size="5" style="width:400px;margin:20px;">
-                <option th:each="product : ${#lists.sort(products)}" th:text="${product.getName()} + ' ' + ${product.getUnit()}"
-                        th:value="${product.getId()}"></option>
+            <select id="selectBox" name="productId" required size="5" style="width:400px;margin:20px;">
             </select>
         </div>
         <div class="row justify-content-md-center" style="margin:20px;">
@@ -34,5 +33,29 @@
 </div>
 <div th:replace="fragments/scripts :: scriptsFragment">
 </div>
+<script>
+
+    function loadProducts() {
+        let phrase = document.getElementById("search").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            let resp;
+            if (this.readyState == 4 && this.status == 200) {
+                resp = this.responseText;
+                let data = JSON.parse(resp);
+                //data = data.sort((a, b) => a-b);
+                document.getElementById("selectBox").innerHTML = "";
+                for (let ele of data){
+                    let name = ele.name;
+                    document.getElementById("selectBox").innerHTML += "<option value=" + ele.id + ">" + name + "</option>";
+                }
+            }
+
+        }
+        xhttp.open("GET", window.location.protocol + "//" + window.location.host + "/api/products/?phrase=" + phrase, true);
+        console.log(window.location.protocol + "//" + window.location.host + "/api/products/?phrase=" + phrase);
+        xhttp.send();
+    }
+</script>
 </body>
 </html>

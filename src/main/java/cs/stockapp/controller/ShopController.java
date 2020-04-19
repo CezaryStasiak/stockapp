@@ -26,11 +26,6 @@ public class ShopController {
         this.productsManager = productsManager;
     }
 
-    @GetMapping("/test")
-    public String after(){
-        return "test";
-    }
-
     @GetMapping(ActionsMappings.INVENTORY)
     public String inventory(Model model) {
 
@@ -63,7 +58,7 @@ public class ShopController {
     public String subQuantity(@ModelAttribute ChangeQuantityForProductCommand command) {
 
         productsManager.substractQuantityForProduct(command);
-        
+
         return "redirect:" + ActionsMappings.PRODUCTS;
     }
 

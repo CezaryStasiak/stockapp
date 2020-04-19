@@ -12,7 +12,7 @@
 <h2>Inventory</h2>
 </center>
 <div th:if="${products!= null and !products.isEmpty()}" style="margin:100px;">
-<table class="table table-sm">
+<table class="table table-sm" id="listTable">
     <thead>
     <tr>
         <th scope="col">Name</th>
@@ -22,7 +22,8 @@
         <th scope="col">Total price</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="inventoryDataTable">
+    <!--
     <tr th:each="product : ${#lists.sort(products)}">
         <td th:text="${product.getProductEntity().getName()}"></td>
         <td th:text="${#numbers.formatDecimal(product.getQuantity(), 0, 3)}"></td>
@@ -30,6 +31,7 @@
         <td th:text="${product.getProductEntity().getPrice()}"></td>
         <td th:text="${#numbers.formatDecimal(product.getProductEntity().getPrice() * product.getQuantity(), 0, 2)}"></td>
     </tr>
+    -->
     </tbody>
 </table>
 </div>
@@ -42,5 +44,35 @@
 </div>
 <div th:replace="fragments/scripts :: scriptsFragment">
 </div>
+
+<script>
+    'use strict';
+
+    (function loadProducts() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            let resp;
+            if (this.readyState == 4 && this.status == 200) {
+                resp = this.responseText;
+                let data = JSON.parse(resp);
+                //data = data.sort((a, b) => a-b);
+                for (let ele of data){
+                    let totalPrice = ele.productEntity.price * ele.quantity;
+                    document.getElementById("inventoryDataTable").innerHTML +=
+                        "<tr>\n" +
+                        "        <td>"+ ele.productEntity.name +"</td>\n" +
+                        "        <td>"+ ele.quantity +"</td>\n" +
+                        "        <td>"+ ele.productEntity.unit +"</td>\n" +
+                        "        <td>"+ ele.productEntity.price +"</td>\n" +
+                        "        <td>"+ totalPrice.toFixed(2) +"</td>\n" +
+                        "    </tr>"
+                }
+            }
+
+        }
+        xhttp.open("GET", window.location.protocol + "//" + window.location.host + "/api/products/onhand", true);
+        xhttp.send();
+    })();
+</script>
 </body>
 </html>
