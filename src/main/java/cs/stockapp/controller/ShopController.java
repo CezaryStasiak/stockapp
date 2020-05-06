@@ -29,9 +29,9 @@ public class ShopController {
     @GetMapping(ActionsMappings.INVENTORY)
     public String inventory(Model model) {
 
-        List<ProductsOnHandQuantityModel> list = productsManager.getProductsOnHandForCurrentUser();
+        //List<ProductsOnHandQuantityModel> list = productsManager.getProductsOnHandForCurrentUser();
 
-        model.addAttribute("products", list);
+        //model.addAttribute("products", list);
 
         return ViewMappings.INVENTORY_VIEW;
     }
@@ -39,9 +39,9 @@ public class ShopController {
     @GetMapping(ActionsMappings.PRODUCTS)
     public String products(Model model){
 
-        List<ProductEntity> products = productsManager.getAllProducts();
+        //List<ProductEntity> products = productsManager.getAllProducts();
 
-        model.addAttribute("products", products);
+        //model.addAttribute("products", products);
 
         return ViewMappings.PRODUCTS_VIEW;
     }

@@ -11,7 +11,7 @@
 <center>
 <h2>Inventory</h2>
 </center>
-<div th:if="${products!= null and !products.isEmpty()}" style="margin:100px;">
+<div style="margin:100px;">
 <table class="table table-sm" id="listTable">
     <thead>
     <tr>
@@ -35,11 +35,10 @@
     </tbody>
 </table>
 </div>
-<div th:if="${products==null or products.isEmpty()}" style="margin:25px;">
-    <center>
-    <h3>Your shop has no products!</h3>
-    </center>
-</div>
+<nav style="margin: auto">
+    <ul class="pagination" id="pages">
+    </ul>
+</nav>
 <div th:replace="fragments/errors :: errorsFragment">
 </div>
 <div th:replace="fragments/scripts :: scriptsFragment">
@@ -47,16 +46,17 @@
 
 <script>
     'use strict';
-
-    (function loadProducts() {
+    loadProducts(1);
+    function loadProducts(pageNumber) {
+        document.getElementById("inventoryDataTable").innerHTML="";
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             let resp;
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
                 resp = this.responseText;
                 let data = JSON.parse(resp);
-                //data = data.sort((a, b) => a-b);
-                for (let ele of data){
+                addPages(data.pages);
+                for (let ele of data.products){
                     let totalPrice = ele.productEntity.price * ele.quantity;
                     document.getElementById("inventoryDataTable").innerHTML +=
                         "<tr>\n" +
@@ -69,10 +69,18 @@
                 }
             }
 
-        }
-        xhttp.open("GET", window.location.protocol + "//" + window.location.host + "/api/products/onhand", true);
+        };
+        xhttp.open("GET", window.location.protocol + "//" + window.location.host + "/api/products/onhand?page=" + pageNumber, true);
         xhttp.send();
-    })();
+    }
+
+    function addPages(pages) {
+        let nav = document.getElementById("pages");
+        nav.innerHTML = "";
+        for (let i = 1; i <= pages; i++){
+            nav.innerHTML += "<li class=\"page-item\" onclick=\"loadProducts("+i+")\"><a class=\"page-link\">"+i+"</a></li>\n";
+        }
+    }
 </script>
 </body>
 </html>

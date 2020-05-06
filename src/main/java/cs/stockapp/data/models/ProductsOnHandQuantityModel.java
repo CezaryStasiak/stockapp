@@ -8,6 +8,21 @@ public class ProductsOnHandQuantityModel extends ProductsOnHandEntity implements
     private final ProductEntity productEntity;
     private double quantity;
 
+    @Override
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    private int pageNumber;
+
     public ProductsOnHandQuantityModel(ProductEntity productEntity, double quantity) {
         this.productEntity = productEntity;
         this.quantity = quantity;

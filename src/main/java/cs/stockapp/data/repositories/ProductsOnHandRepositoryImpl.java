@@ -1,7 +1,6 @@
 package cs.stockapp.data.repositories;
 
 import cs.stockapp.data.entities.ProductsOnHandEntity;
-import cs.stockapp.data.models.ProductsOnHandQuantityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +13,8 @@ public class ProductsOnHandRepositoryImpl {
     @Autowired
     private ProductsOnHandRepository productOnHandRepository;
 
-    public List<ProductsOnHandEntity> getAll(){
-        return productOnHandRepository.findAll();
+    public List<ProductsOnHandEntity> getByShop(Integer shopId){
+        return productOnHandRepository.getAllBy(shopId);
     }
 
     public void save(ProductsOnHandEntity productsOnHandEntity){

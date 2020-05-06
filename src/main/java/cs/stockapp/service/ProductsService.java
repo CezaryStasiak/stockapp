@@ -23,16 +23,12 @@ public class ProductsService {
     private final UserRepositoryImpl userRepository;
     private final UserProvider userProvider;
 
-
+    @Autowired
     public ProductsService(ProductsOnHandRepositoryImpl productsOnHandRepository, ProductRepositoryImpl productRepository, UserRepositoryImpl userRepository, UserProvider userProvider) {
         this.productsOnHandRepository = productsOnHandRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.userProvider = userProvider;
-    }
-
-    public List<ProductEntity> getAllProducts() {
-        return productRepository.getAll();
     }
 
     public List<ProductEntity> getByName(String phrase) {
@@ -45,14 +41,14 @@ public class ProductsService {
 
         List<ProductsOnHandQuantityModel> resultList = new ArrayList<>();
 
-        List<ProductsOnHandEntity> productsOnHandEntities = productsOnHandRepository.getAll();
+        List<ProductsOnHandEntity> productsOnHandEntities = productsOnHandRepository.getByShop(shopId);
+        List<ProductEntity> products = productRepository.getAll();
 
         for (ProductsOnHandEntity p : productsOnHandEntities) {
-            if (p.getShopId() == shopId) {
-                int productId = p.getProductId();
-                resultList.add(new ProductsOnHandQuantityModel(productRepository.getOneById(productId), p.getAmount()));
+                resultList.add(new ProductsOnHandQuantityModel(
+                        products.stream().filter(productEntity -> productEntity.getId() == p.getProductId()).findFirst().orElse(null),
+                        p.getAmount()));
             }
-        }
         return resultList;
     }
 

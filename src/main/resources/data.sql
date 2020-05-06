@@ -25,7 +25,15 @@ INSERT INTO product (`name`, `unit`, `price`) VALUES
 ('Vodka "Zubrowka"', 'liter', '34.50'),
 ('Sausage "Podwawelska"', 'kilogram', '24.00'),
 ('Cigarettes L&M', 'pack', '15.00'),
-('Sausage "Berlinki"', 'pack', '7.00');
+('Sausage "Berlinki"', 'pack', '7.00'),
+('Redbull', 'can', '5.50'),
+('Lipton Peach Tea', 'liter', '3.30'),
+('Delicje', 'pack', '4.40'),
+('Pork Loins', 'kilogram', '16.40'),
+('Pork chop', 'kilogram', '13.80'),
+('Minced beef', 'kilogram', '16.40')
+;
+
 
 CREATE TABLE products_on_hand (
   `id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,

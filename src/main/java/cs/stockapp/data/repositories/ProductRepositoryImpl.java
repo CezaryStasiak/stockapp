@@ -2,13 +2,13 @@ package cs.stockapp.data.repositories;
 
 import cs.stockapp.data.entities.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class ProductRepositoryImpl{
+
     @Autowired
     private ProductRepository productRepository;
 
